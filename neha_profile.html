@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neha S Dalbanjan — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #06060f;
+    --surface: #0e0e1a;
+    --surface2: #13131e;
+    --border: rgba(255,255,255,0.06);
+    --border2: rgba(255,255,255,0.13);
+    --text: #eeedf8;
+    --muted: #7878a0;
+    --accent: #7c6dfa;
+    --accent-light: #c4b8ff;
+    --teal: #3dffd0;
+    --teal-dim: rgba(61,255,208,0.12);
+    --purple-dim: rgba(124,109,250,0.12);
+    --purple-border: rgba(124,109,250,0.25);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ─── NOISE GRAIN OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── FLOATING ORBS ─── */
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(80px);
+  }
+  .orb1 {
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(124,109,250,0.1) 0%, transparent 65%);
+    top: -200px; right: -200px;
+    animation: drift1 20s ease-in-out infinite alternate;
+  }
+  .orb2 {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(61,255,208,0.07) 0%, transparent 65%);
+    bottom: -100px; left: -100px;
+    animation: drift2 25s ease-in-out infinite alternate;
+  }
+  .orb3 {
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(196,184,255,0.06) 0%, transparent 65%);
+    top: 50%; left: 40%;
+    animation: drift3 30s ease-in-out infinite alternate;
+  }
+
+  @keyframes drift1 { to { transform: translate(-60px, 80px); } }
+  @keyframes drift2 { to { transform: translate(60px, -80px); } }
+  @keyframes drift3 { to { transform: translate(40px, 60px); } }
+
+  /* ─── Z-INDEX LAYER ─── */
+  nav, section, footer, .hero { position: relative; z-index: 1; }
+
+  /* ─── NAV ─── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(6,6,15,0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 0.5px solid var(--border);
+    padding: 0 2.5rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 62px;
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 17px;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    text-decoration: none;
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  .nav-logo-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: inline-block;
+    box-shadow: 0 0 10px var(--accent);
+    animation: blink 2.5s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1;box-shadow:0 0 8px var(--accent);} 50%{opacity:0.4;box-shadow:none;} }
+
+  .nav-links { display: flex; gap: 1.75rem; list-style: none; }
+  .nav-links a {
+    font-size: 13px; color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color 0.2s;
+    padding-bottom: 2px;
+    border-bottom: 1px solid transparent;
+  }
+  .nav-links a:hover { color: var(--text); border-bottom-color: var(--accent); }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 95vh;
+    display: flex; align-items: center;
+    padding: 7rem 2.5rem 5rem;
+    max-width: 1140px; margin: 0 auto;
+  }
+
+  .hero-content { max-width: 700px; }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--purple-dim);
+    border: 0.5px solid var(--purple-border);
+    border-radius: 100px;
+    padding: 7px 16px;
+    font-size: 11px;
+    color: var(--accent-light);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 2.25rem;
+    font-weight: 500;
+  }
+
+  .live-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--teal);
+    box-shadow: 0 0 8px var(--teal);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{transform:scale(1);opacity:1;} 50%{transform:scale(0.7);opacity:0.5;} }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    line-height: 1.0;
+    letter-spacing: -3px;
+    color: var(--text);
+    margin-bottom: 1.75rem;
+  }
+
+  h1 .line2 {
+    background: linear-gradient(90deg, var(--accent) 0%, var(--teal) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: 17px;
+    color: var(--muted);
+    font-weight: 300;
+    max-width: 540px;
+    margin-bottom: 2.5rem;
+    line-height: 1.65;
+  }
+
+  .hero-sub strong { color: var(--accent-light); font-weight: 400; }
+
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 4rem; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 13px 26px;
+    border-radius: 10px;
+    font-size: 14px; font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.25s;
+    font-family: 'DM Sans', sans-serif;
+    border: none;
+    letter-spacing: 0.01em;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, #7c6dfa 0%, #a78bfa 100%);
+    color: #fff;
+    box-shadow: 0 4px 24px rgba(124,109,250,0.3);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(124,109,250,0.45); }
+  .btn-ghost {
+    background: transparent;
+    border: 0.5px solid var(--border2);
+    color: var(--muted);
+  }
+  .btn-ghost:hover { border-color: rgba(124,109,250,0.5); color: var(--text); background: var(--purple-dim); }
+
+  .hero-stats { display: flex; gap: 3rem; }
+
+  .stat { text-align: left; }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.4rem; font-weight: 800;
+    color: var(--text);
+    letter-spacing: -1px;
+  }
+  .stat-num sup { font-size: 1rem; color: var(--accent); }
+  .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 2px; }
+
+  /* ─── SECTION BASE ─── */
+  .section-wrap { max-width: 1140px; margin: 0 auto; padding: 6rem 2.5rem; }
+
+  .section-eyebrow {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+    font-weight: 500;
+    display: flex; align-items: center; gap: 10px;
+  }
+
+  .section-eyebrow::before {
+    content: '';
+    display: block;
+    width: 28px; height: 1px;
+    background: var(--accent);
+  }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.9rem, 4vw, 3rem);
+    letter-spacing: -1.5px;
+    margin-bottom: 3rem;
+    color: var(--text);
+    line-height: 1.1;
+  }
+
+  .divider { border: none; border-top: 0.5px solid var(--border); max-width: 1140px; margin: 0 auto; }
+
+  /* ─── PROJECT CARD ─── */
+  .project-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 20px;
+    padding: 2.25rem;
+    transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(124,109,250,0.04) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .project-card:hover {
+    border-color: rgba(124,109,250,0.35);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(124,109,250,0.12);
+  }
+
+  .project-header {
+    display: flex; align-items: flex-start;
+    justify-content: space-between; gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .project-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    background: var(--purple-dim);
+    border: 0.5px solid var(--purple-border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+
+  .project-tag {
+    font-size: 11px;
+    background: var(--teal-dim);
+    color: var(--teal);
+    border: 0.5px solid rgba(61,255,208,0.2);
+    border-radius: 100px;
+    padding: 4px 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .project-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.3rem; font-weight: 700;
+    margin-bottom: 0.6rem;
+    color: var(--text);
+    letter-spacing: -0.3px;
+  }
+
+  .project-desc { font-size: 14px; color: var(--muted); line-height: 1.7; margin-bottom: 1.4rem; }
+
+  .project-highlights {
+    list-style: none;
+    margin-bottom: 1.4rem;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+
+  .project-highlights li {
+    font-size: 13px; color: var(--muted);
+    display: flex; align-items: flex-start; gap: 10px;
+  }
+
+  .project-highlights li::before {
+    content: '→';
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .tech-stack { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .tech-pill {
+    font-size: 11px;
+    background: var(--purple-dim);
+    color: var(--accent-light);
+    border-radius: 100px;
+    padding: 5px 14px;
+    border: 0.5px solid var(--purple-border);
+    letter-spacing: 0.03em;
+    font-weight: 500;
+    transition: background 0.2s;
+  }
+  .tech-pill:hover { background: rgba(124,109,250,0.2); }
+
+  /* ─── SKILLS ─── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1rem;
+  }
+
+  .skill-group {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 14px;
+    padding: 1.5rem;
+    transition: border-color 0.2s;
+  }
+  .skill-group:hover { border-color: var(--border2); }
+
+  .skill-group-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 1.1rem;
+  }
+
+  .skill-group-icon {
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    background: var(--purple-dim);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+  }
+
+  .skill-group-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .skill-item {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 14px; color: var(--text);
+    padding: 8px 0;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .skill-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+  .skill-bar-wrap { flex: 1; }
+  .skill-bar {
+    height: 3px;
+    background: var(--border2);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 4px;
+  }
+  .skill-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--teal));
+    transform-origin: left;
+    animation: barGrow 1.2s ease both;
+  }
+  @keyframes barGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+  /* ─── EDUCATION ─── */
+  .edu-grid { display: flex; flex-direction: column; gap: 1px; }
+
+  .edu-item {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 0 2rem;
+    align-items: start;
+    padding: 2rem 0;
+    border-bottom: 0.5px solid var(--border);
+    position: relative;
+  }
+  .edu-item:last-child { border-bottom: none; }
+
+  .edu-year {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    padding-top: 4px;
+    text-align: right;
+    padding-right: 2rem;
+    border-right: 1px solid var(--border);
+  }
+
+  .edu-body { padding-left: 2rem; }
+
+  .edu-degree {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.05rem; font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+    letter-spacing: -0.2px;
+  }
+
+  .edu-school { font-size: 13px; color: var(--muted); margin-bottom: 0.4rem; }
+
+  .edu-score {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; color: var(--teal);
+    background: var(--teal-dim);
+    border: 0.5px solid rgba(61,255,208,0.2);
+    border-radius: 100px;
+    padding: 3px 12px;
+    font-weight: 500;
+  }
+
+  /* ─── CONTACT ─── */
+  .contact-wrap {
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: 24px;
+    padding: 4rem 3rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-wrap::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(124,109,250,0.1) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .contact-wrap h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 0.75rem;
+  }
+  .contact-wrap p { color: var(--muted); margin-bottom: 2.5rem; font-size: 15px; }
+
+  .contact-links { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+
+  .contact-link {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 12px 22px;
+    border: 0.5px solid var(--border2);
+    border-radius: 10px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.25s;
+    background: rgba(255,255,255,0.02);
+  }
+  .contact-link:hover {
+    border-color: rgba(124,109,250,0.4);
+    color: var(--text);
+    background: var(--purple-dim);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(124,109,250,0.1);
+  }
+
+  .contact-link .icon { font-size: 16px; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 0.5px solid var(--border);
+    padding: 2rem 2.5rem;
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    position: relative; z-index: 1;
+  }
+
+  footer span { color: var(--accent); }
+
+  /* ─── ENTRANCE ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-content > * { animation: fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) both; }
+  .hero-content > *:nth-child(1) { animation-delay: 0.05s; }
+  .hero-content > *:nth-child(2) { animation-delay: 0.15s; }
+  .hero-content > *:nth-child(3) { animation-delay: 0.25s; }
+  .hero-content > *:nth-child(4) { animation-delay: 0.35s; }
+  .hero-content > *:nth-child(5) { animation-delay: 0.45s; }
+
+  /* ─── SCROLL REVEAL ─── */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 640px) {
+    nav { padding: 0 1.25rem; }
+    .nav-links { gap: 1rem; }
+    .section-wrap { padding: 4rem 1.25rem; }
+    .hero { padding: 5rem 1.25rem 3rem; min-height: auto; }
+    .hero-stats { gap: 2rem; }
+    .contact-wrap { padding: 2.5rem 1.5rem; }
+    .edu-item { grid-template-columns: 1fr; }
+    .edu-year { text-align: left; border-right: none; border-bottom: 0.5px solid var(--border); padding-right: 0; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+    .edu-body { padding-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ORBS -->
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <a href="#" class="nav-logo">
+    <span class="nav-logo-dot"></span>
+    Neha.dev
+  </a>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ─── HERO ─── -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="live-dot"></span>
+      Open to Internships · 2025
+    </div>
+
+    <h1>
+      Neha S<br>
+      <span class="line2">Dalbanjan</span>
+    </h1>
+
+    <p class="hero-sub">
+      AI &amp; Data Science student at <strong>East Point College, VTU</strong> — building intelligent systems that decode the real world, one dataset at a time.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#projects" class="btn btn-primary">View My Work ↓</a>
+      <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">8.50<sup></sup></div>
+        <div class="stat-label">CGPA</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">6<sup>th</sup></div>
+        <div class="stat-label">Semester</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">94<sup>%</sup></div>
+        <div class="stat-label">PUC Score</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ─── PROJECTS ─── -->
+<div class="section-wrap" id="projects">
+  <div class="reveal">
+    <p class="section-eyebrow">My Work</p>
+    <h2>Featured Projects</h2>
+  </div>
+
+  <div class="project-card reveal">
+    <div class="project-header">
+      <div class="project-icon">🚗</div>
+      <span class="project-tag">5th Sem · AI Vision</span>
+    </div>
+    <div class="project-title">Vehicle Count Estimator using CCTV Footage</div>
+    <p class="project-desc">
+      A real-time computer vision system that processes CCTV footage to automatically detect, classify, and count vehicles. Designed to enable smarter urban traffic monitoring without human intervention.
+    </p>
+    <ul class="project-highlights">
+      <li>Detects and counts vehicles frame-by-frame from live or recorded footage</li>
+      <li>Distinguishes between vehicle types for traffic analysis</li>
+      <li>Handles varied lighting, occlusions, and camera angles</li>
+      <li>Provides visual overlays and count statistics as output</li>
+    </ul>
+    <div class="tech-stack">
+      <span class="tech-pill">Python</span>
+      <span class="tech-pill">OpenCV</span>
+      <span class="tech-pill">Computer Vision</span>
+      <span class="tech-pill">Object Detection</span>
+      <span class="tech-pill">Video Processing</span>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ─── SKILLS ─── -->
+<div class="section-wrap" id="skills">
+  <div class="reveal">
+    <p class="section-eyebrow">Capabilities</p>
+    <h2>Skills &amp; Technologies</h2>
+  </div>
+
+  <div class="skills-grid">
+
+    <div class="skill-group reveal">
+      <div class="skill-group-header">
+        <div class="skill-group-icon">⌨️</div>
+        <div class="skill-group-title">Languages</div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-bar-wrap">
+          <span style="font-size:14px;">Python</span>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width:80%;"></div></div>
+        </div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-bar-wrap">
+          <span style="font-size:14px;">Java</span>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width:65%;animation-delay:0.2s;"></div></div>
+        </div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-bar-wrap">
+          <span style="font-size:14px;">C</span>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width:70%;animation-delay:0.4s;"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="skill-group reveal">
+      <div class="skill-group-header">
+        <div class="skill-group-icon">🌐</div>
+        <div class="skill-group-title">Web Development</div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-bar-wrap">
+          <span style="font-size:14px;">HTML5</span>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width:75%;animation-delay:0.1s;"></div></div>
+        </div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-bar-wrap">
+          <span style="font-size:14px;">CSS3</span>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width:65%;animation-delay:0.3s;"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="skill-group reveal">
+      <div class="skill-group-header">
+        <div class="skill-group-icon">🤖</div>
+        <div class="skill-group-title">AI / Data Science</div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-bar-wrap">
+          <span style="font-size:14px;">Computer Vision</span>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width:70%;"></div></div>
+        </div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-bar-wrap">
+          <span style="font-size:14px;">OpenCV</span>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width:65%;animation-delay:0.2s;"></div></div>
+        </div>
+      </div>
+      <div class="skill-item">
+        <div class="skill-bar-wrap">
+          <span style="font-size:14px;">Data Analysis</span>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width:60%;animation-delay:0.4s;"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="skill-group reveal">
+      <div class="skill-group-header">
+        <div class="skill-group-icon">✨</div>
+        <div class="skill-group-title">Soft Skills</div>
+      </div>
+      <div class="skill-item" style="padding: 8px 0; font-size:14px;">Quick Learner</div>
+      <div class="skill-item" style="padding: 8px 0; font-size:14px;">Communication</div>
+      <div class="skill-item" style="padding: 8px 0; font-size:14px;">Teamwork</div>
+      <div class="skill-item" style="padding: 8px 0; font-size:14px;">Adaptability</div>
+    </div>
+
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ─── EDUCATION ─── -->
+<div class="section-wrap" id="education">
+  <div class="reveal">
+    <p class="section-eyebrow">Academic Journey</p>
+    <h2>Education</h2>
+  </div>
+
+  <div class="edu-grid">
+
+    <div class="edu-item reveal">
+      <div class="edu-year">2023 –<br>Present</div>
+      <div class="edu-body">
+        <div class="edu-degree">B.E. in Artificial Intelligence &amp; Data Science</div>
+        <div class="edu-school">East Point College of Engineering and Technology, VTU · Bengaluru</div>
+        <div class="edu-score">⭐ CGPA: 8.50 &nbsp;·&nbsp; Currently in 6th Semester</div>
+      </div>
+    </div>
+
+    <div class="edu-item reveal">
+      <div class="edu-year">2021 –<br>2023</div>
+      <div class="edu-body">
+        <div class="edu-degree">Pre-University College (PUC)</div>
+        <div class="edu-school">Government Pre-University College</div>
+        <div class="edu-score">⭐ Score: 94.16%</div>
+      </div>
+    </div>
+
+    <div class="edu-item reveal">
+      <div class="edu-year">2020 –<br>2021</div>
+      <div class="edu-body">
+        <div class="edu-degree">SSLC</div>
+        <div class="edu-school">Shri Sadguru English High School</div>
+        <div class="edu-score">⭐ Score: 94.24%</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ─── CONTACT ─── -->
+<div class="section-wrap" id="contact">
+  <div class="contact-wrap reveal">
+    <h3>Let's build something together</h3>
+    <p>Open to internships, collaborations, and learning opportunities. Drop a message!</p>
+    <div class="contact-links">
+      <a class="contact-link" href="mailto:nehadalbanjan391@gmail.com">
+        <span class="icon">✉</span>
+        nehadalbanjan391@gmail.com
+      </a>
+      <a class="contact-link" href="tel:+917892685289">
+        <span class="icon">☎</span>
+        +91 78926 85289
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  Crafted with care by <span>Neha S Dalbanjan</span> &nbsp;·&nbsp; Bengaluru, India &nbsp;·&nbsp; 2025
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
